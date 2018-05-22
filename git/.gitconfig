@@ -1,0 +1,120 @@
+# Personal information such as the [user] block containing the name and email,
+# or [github] block containing the user, etc. should be stored in a separate
+# file at ~/.gitconfig.local, which is included at the end of this file,
+# allowing it to override anything this configuration file specifies.
+
+[pull]
+	rebase = preserve
+
+[core]
+	pager = less -+$LESS -FRX
+
+[status]
+	submoduleSummary = true
+	showUntrackedFiles = all
+
+[alias]
+	br = branch
+	bs = bisect
+	cl = clone
+	co = checkout
+	df = diff
+	mrg = merge
+	rb = rebase
+	re = remote
+	rs = reset
+	sh = stash
+	sm = submodule
+	st = status
+
+	# create an empty commit, e.g. for when initializing a repo
+	root = commit --allow-empty
+
+	# rebase local changes
+	rebase-local = rebase -i @{u}
+
+	# delete remote branch
+	delete-remote-branch = "!f() { git push $1 :$2}; f"
+
+	# interactively clean up
+	clean-up = clean -i
+
+	# show diff between HEAD and index in commit window
+	ci = commit -v
+
+	# add all working directory changes for files that were already staged
+	au = add -u
+
+	# reset hard
+	rh = reset --hard
+
+	# custom log
+	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+
+	# ammend without editing the message
+	oops = commit --amend --no-edit
+
+	# show branches and their upstreams
+	bri = branch -vv
+
+	# show submodule diffs as well
+	dfsm = diff --submodule
+
+	# word diff using color to differentiate
+	dfw = diff --word-diff=color
+
+	# show diff between index and working tree
+	dfc = diff --cached
+
+	# word diff between index and working tree
+	dfcw = diff --cached --word-diff=color
+
+	# search using git grep
+	gr = grep --break --heading --line-number
+
+	# finds the last two commits that contain modifications matching the specified
+	# pattern inside of the specified file.
+	# git lg-grep 'Secure_?Random' some/file.txt
+	lg-find-last-modified = "!f() { git log -G $1 -2 -- $2; }; f"
+
+	# find the last two commits that changed the number of occurrences of text
+	# that matches the provided pattern. i.e. either the matching text was
+	# removed or added. this differs from the above because the above will match
+	# even if it just modified the text, but didn't outright remove it or add it
+	lg-find-last-removed-or-added = "!f() { git log -S $1 --pickaxe-regex -2 -- $2; }; f"
+
+	# reset commiter date of previous commit
+	ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
+
+	# view man page in html format
+	web-help = help -w
+
+	# fzf list aliases
+	aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
+
+[color]
+	ui = true
+	branch = auto
+	diff = auto
+	grep = auto
+
+[diff]
+	submodule = log
+	wordRegex = .
+
+[push]
+	default = simple
+	recurseSubmodules = on-demand
+
+[grep]
+	extendRegexp = true
+	lineNumber = true
+
+[rerere]
+	enabled = true
+
+[include]
+	path = ~/.gitconfig.local
+[user]
+	email = kirilleo@mail.ru
+	name = Kr4ken
